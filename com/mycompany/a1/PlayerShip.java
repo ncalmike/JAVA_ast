@@ -43,6 +43,10 @@ public class PlayerShip extends Ship implements ISteerable {
 		setDirection(getDirection() - DEGREES);
 	}
 	
+	public void turnML() { playerML.turnRight(); }
+	
+	public void replenishMissiles() { this.setMissileCount(this.MAX_PS_MISSILES); }
+	
 	public String toString() {
 		return (
 				"PlayerShip: loc =" + GameObject.round(getLocationX()) + "," + GameObject.round(getLocationY()) +

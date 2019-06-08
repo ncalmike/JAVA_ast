@@ -54,9 +54,6 @@ public class Game extends Form {
 		                                          if(sCommand.length() > 0) {
 			                                          switch (sCommand.charAt(0))
 			                                          {
-			                                             /*case 'e':
-			                                                gw.eliminate();
-			                                                break;*/
 			                                             case 'a':
 			                                                gw.addNewAsteroid();
 			                                                break;
@@ -69,7 +66,7 @@ public class Game extends Form {
 			                                             case 's':
 			                                                gw.addPlayerShip();
 			                                                break;
-			                                             /*case 'i':
+			                                             case 'i':
 			                                                gw.increaseSpeed();
 			                                                break;
 			                                             case 'd':
@@ -82,8 +79,8 @@ public class Game extends Form {
 			                                                gw.turnRight();
 			                                                break;
 			                                             case '>':
-			                                                gw.rotateMissleLauncher();
-			                                                break;*/
+			                                                gw.rotateMissileLauncher();
+			                                                break;
 			                                             case 'f':
 			                                                gw.fireMissile();
 			                                                break;
@@ -92,7 +89,7 @@ public class Game extends Form {
 			                                                break;
 			                                             /*case 'j':
 			                                                gw.jumpHyper();
-			                                                break;
+			                                                break; */
 			                                             case 'n':
 			                                                gw.reloadSupply();
 			                                                break;
@@ -100,18 +97,18 @@ public class Game extends Form {
 			                                                gw.killAsteroid();
 			                                                break;
 			                                             case 'e':
-			                                                gw.ElimnateNonPS();
+			                                                gw.eliminate();
 			                                                break;
 			                                             case 'E':
 			                                                gw.explodePS();
 			                                                break;
-			                                             case 'c':
+			                                                case 'c':
 			                                                gw.collisionAtoPS();
 			                                                break;
 			                                             case 'h':
 			                                                gw.collisionNPS();
 			                                                break;
-			                                             case 't':
+			                                                /*case 't':
 			                                                gw.tick();
 			                                                break;*/
 			                                             case 'p':

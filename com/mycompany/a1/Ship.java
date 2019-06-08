@@ -2,13 +2,14 @@ package com.mycompany.a1;
 
 public class Ship extends MovableGameObject {
 	
+	protected static final int MAX_PS_MISSILES = 10;
 	private int missileCount;
 	
 	public Ship(int color) {
 		super(color);
 
 		boolean isPS = this instanceof PlayerShip;
-		int missleCount = isPS ? 10 : 4;
+		int missleCount = isPS ? MAX_PS_MISSILES : 4;
 		setMissileCount(missleCount);
 	}
 

@@ -61,19 +61,6 @@ public class GameWorld {
 		 numPSMissles = 10;
 	}
 	
-	public void addNewAsteroid() {
-		gameObjs.add(new Asteroid());
-	}
-	
-	public void addNonPlayerShip() {
-		
-		gameObjs.add(new NonPlayerShip());
-	}
-	
-	public void addSpaceStation() {
-		gameObjs.add(new SpaceStation());
-	}
-	
 	public GameObject getGameObject(Class<?> class1) {
 
 		boolean found = false;
@@ -86,6 +73,150 @@ public class GameWorld {
 			found = item.getClass().equals(class1);
 		}
 		return item;
+	}
+	
+	public boolean removeGameObject(Class<?> class1) {
+		
+		boolean found	= false;
+		boolean removed = false;
+		GameObject item = null;
+		
+		Iterator<GameObject> itr = gameObjs.iterator();
+		while(itr.hasNext() && !found) {
+
+			item =  itr.next();
+			found = item.getClass().equals(class1); // will need to add code to identify correct item, probably relative location of objects
+			if(found) removed = gameObjs.remove(item);
+		}
+		return removed;
+	}
+	
+	public void addNewAsteroid() {
+		gameObjs.add(new Asteroid());
+	}
+	
+	public void killAsteroid() {
+		removeGameObject(Asteroid.class);
+	}
+	
+	public void addNonPlayerShip() {
+		
+		gameObjs.add(new NonPlayerShip());
+	}
+	
+	public void addSpaceStation() {
+		gameObjs.add(new SpaceStation());
+	}
+	
+	/**
+	 * 
+	 * Adds player ship to game. If player is out of chances, informs user to start new game.
+	 *
+	 */
+	public void addPlayerShip() {
+		if(!hasPlayerShip && numLives > 0)
+		{
+			gameObjs.add(new PlayerShip());
+		}else
+		{
+			System.out.println("Player Ship Already Exists. Stop.");
+		}
+	}
+	
+	public void explodePS() {
+		// get PlayerShip - need location for expload graphic
+		removeGameObject(PlayerShip.class);
+		// add player ship should be done after explosion is complete
+	}
+	
+	public void collisionAtoPS() {
+
+		GameObject obj1	= getGameObject(PlayerShip.class);
+		GameObject obj2	= getGameObject(Asteroid.class);
+		
+		if(obj1 != null && obj2 != null) {
+			PlayerShip PS = (PlayerShip) obj1;
+			Asteroid ast = (Asteroid) obj2;
+			gameObjs.remove(PS);
+			gameObjs.remove(ast);
+		}
+	}
+	
+	public void collisionNPS() {
+		
+		boolean succeed = false;
+		
+		GameObject obj1	= getGameObject(PlayerShip.class);
+		GameObject obj2	= getGameObject(NonPlayerShip.class);
+		
+		if(obj1 != null && obj2 != null) {
+			PlayerShip PS = (PlayerShip) obj1;
+			Asteroid ast = (Asteroid) obj2;
+			succeed = gameObjs.remove(PS) && gameObjs.remove(ast);
+		}
+		if(!succeed) out("custom message for failure");
+	}
+	
+	public void eliminate() {
+
+		boolean succeed = false;
+		
+		GameObject obj1	= getGameObject(NonPlayerShip.class);
+		GameObject obj2	= getGameObject(Missile.class);
+		
+		if(obj1 != null && obj2 != null) {
+			NonPlayerShip NPS = (NonPlayerShip) obj1;
+			Missile missile = (Missile) obj2;
+			succeed = gameObjs.remove(NPS) && gameObjs.remove(missile);
+		}
+		if(!succeed) out("custom message for failure");
+	}
+	
+	public void reloadSupply() {
+		GameObject gamePiece = getGameObject(PlayerShip.class);
+		if(gamePiece != null) {
+			PlayerShip PS = (PlayerShip)gamePiece;
+			PS.replenishMissiles();
+		}
+	}
+	public void increaseSpeed() {
+		GameObject gamePiece = getGameObject(PlayerShip.class);
+		if(gamePiece != null) {
+			PlayerShip PS = (PlayerShip)gamePiece;
+			PS.setSpeed(PS.getSpeed() + 1);
+		}
+	}
+	
+	public void decreaseSpeed() {
+		GameObject gamePiece = getGameObject(PlayerShip.class);
+		if(gamePiece != null) {
+			PlayerShip PS = (PlayerShip)gamePiece;
+			PS.setSpeed(PS.getSpeed() - 1);
+		}
+	}
+	
+	public void turnRight() {
+		GameObject gamePiece = getGameObject(PlayerShip.class);
+		if(gamePiece != null) {
+			PlayerShip PS = (PlayerShip)gamePiece;
+			PS.turnRight();
+		}
+	}
+	
+	public void turnLeft() {
+		GameObject gamePiece = getGameObject(PlayerShip.class);
+		if(gamePiece != null) {
+			PlayerShip PS = (PlayerShip)gamePiece;
+			PS.turnLeft();
+		}
+	}
+	
+	public void rotateMissileLauncher() {
+		GameObject gamePiece = getGameObject(PlayerShip.class);
+		if(gamePiece != null) {
+			PlayerShip PS = (PlayerShip)gamePiece;
+			PS.turnML();
+		}
 	}
 	
 	public void addMissile(Ship ship, int direction) {
@@ -104,7 +235,7 @@ public class GameWorld {
 	public void fireMissile()
 	{
 		
-		GameObject gamePiece = getGameObject(PlayerShip.class.getClass());
+		GameObject gamePiece = getGameObject(PlayerShip.class);
 		
 		if(gamePiece != null) {
 			PlayerShip PS = (PlayerShip)gamePiece;
@@ -112,6 +243,8 @@ public class GameWorld {
 			addMissile((Ship)PS, PS.getDirectionML());
 		}
 	}
+	
+	
 
 	/**
 	 * 
@@ -120,28 +253,11 @@ public class GameWorld {
 	 */
 	public void launchMissile() {
 		
-		GameObject item = getGameObject(NonPlayerShip.class.getClass());
+		GameObject item = getGameObject(NonPlayerShip.class);
 		if(item != null) {
 			NonPlayerShip NPS = (NonPlayerShip)item;
 			NPS.decrementMissleCount();
 			addMissile((Ship)NPS, NPS.getDirection());
-		}
-	}
-
-	/**
-	 * 
-	 * Adds player ship to game. If player is out of chances, informs user to start new game.
-	 *
-	 */
-	public void addPlayerShip() {
-		if(!hasPlayerShip && numLives > 0)
-		{
-			double x = 0, y = 0;
-			int color = ColorUtil.BLUE, speed = 0, direction = 0;
-			gameObjs.add(new PlayerShip());
-		}else
-		{
-			System.out.println("Player Ship Already Exists. Stop.");
 		}
 	}
 	
@@ -163,6 +279,8 @@ public class GameWorld {
 	public void displayMap() {
 		display();
 	}
+	
+	public void out(String s) { System.out.println(s); }
 	
 	//public void increase
 }
