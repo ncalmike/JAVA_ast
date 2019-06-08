@@ -35,7 +35,7 @@ public class Game extends Form {
 	}
 	
 	/**
-	 * 	Creates ActionListener to receive events ant interpret event into action.
+	 * 	Creates ActionListener to receive events and interpret events into actions.
 	 *
 	 */
 	private void play()

@@ -74,6 +74,28 @@ public class GameWorld {
 		gameObjs.add(new SpaceStation());
 	}
 	
+	public GameObject getGameObject(Class<?> class1) {
+
+		boolean found = false;
+		GameObject item = null;
+		
+		Iterator<GameObject> itr = gameObjs.iterator();
+		while(itr.hasNext() && !found) {
+
+			item =  itr.next();
+			found = item.getClass().equals(class1);
+		}
+		return item;
+	}
+	
+	public void addMissile(Ship ship, int direction) {
+		Missile msl = new Missile(ship);
+		msl.setLocation(ship.getLocationX(),ship.getLocationY());
+		msl.setDirection(direction);
+		msl.setSpeed(ship.getSpeed() + 2);
+		gameObjs.add(msl);
+	}
+	
 	/**
 	 * 
 	 * Fires missile from player ship.
@@ -81,49 +103,28 @@ public class GameWorld {
 	 */
 	public void fireMissile()
 	{
-		boolean found = false;
 		
-		Iterator<GameObject> itr = gameObjs.iterator();
+		GameObject gamePiece = getGameObject(PlayerShip.class.getClass());
 		
-		while(itr.hasNext() && !found) {
-
-			GameObject item =  itr.next();
-			found = item instanceof PlayerShip;
-			if(found) {
-				PlayerShip PS = (PlayerShip)item;
-				PS.decrementMissleCount();
-				Missile temp = new Missile(PS);
-				temp.setLocation(PS.getLocationX(),PS.getLocationY());
-				temp.setDirection(PS.getDirectionML());
-				temp.setSpeed(PS.getSpeed() + 2);
-				gameObjs.add(temp);
-			}
+		if(gamePiece != null) {
+			PlayerShip PS = (PlayerShip)gamePiece;
+			PS.decrementMissleCount();
+			addMissile((Ship)PS, PS.getDirectionML());
 		}
 	}
-	
+
 	/**
 	 * 
 	 * Launches missile from enemy ship
 	 *
 	 */
 	public void launchMissile() {
-		boolean found = false;
 		
-		Iterator<GameObject> itr = gameObjs.iterator();
-		
-		while(itr.hasNext() && !found) {
-
-			GameObject item =  itr.next();
-			found = item instanceof NonPlayerShip;
-			if(found) {
-				NonPlayerShip NPS = (NonPlayerShip)item;
-				NPS.decrementMissleCount();
-				Missile temp = new Missile(NPS);
-				temp.setLocation(NPS.getLocationX(), NPS.getLocationY());
-				temp.setDirection(NPS.getDirection());
-				temp.setSpeed(NPS.getSpeed() + 2);
-				gameObjs.add(temp);
-			}
+		GameObject item = getGameObject(NonPlayerShip.class.getClass());
+		if(item != null) {
+			NonPlayerShip NPS = (NonPlayerShip)item;
+			NPS.decrementMissleCount();
+			addMissile((Ship)NPS, NPS.getDirection());
 		}
 	}
 
