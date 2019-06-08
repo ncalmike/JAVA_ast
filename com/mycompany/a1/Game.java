@@ -11,20 +11,34 @@ import com.codename1.ui.layouts.BorderLayout;
 
 /**
  * 
+ * Controller class that contains an instance of the GameWorld (model class).
+ * <p>
+ * Translates action commands and performs the prescribed action for that command.
+ * @author      Mike Morse
+ * @author      Andrew Dang
+ * @version     %I%, %G%
  */
-
-
 public class Game extends Form {
 	
 	private GameWorld gw;
 	
+	/**
+	 * 
+	 * instantiates instance of GameWorld and invokes method to initialize the model class.
+	 * <p>
+	 * Invokes play method.
+	 */
 	public Game() {
 		gw = new GameWorld();
 		gw.init();
 		play();
 	}
 	
-		private void play()
+	/**
+	 * 	Creates ActionListener to receive events ant interpret event into action.
+	 *
+	 */
+	private void play()
       {
 	      Label myLabel=new Label("Enter a Command:");
 	      this.addComponent(myLabel);
@@ -115,9 +129,15 @@ public class Game extends Form {
 		                                    } //new ActionListener() 
 		                                    ); //addActionListener} //play
 	}
-		public void quit() {
-			System.out.println("Exiting ...");
-			System.exit(0);
-			// Dialog.show("Quit", "Are you sure you want to Quit?", "OK", "Cancel");
-		}
+	
+	/**
+	 * 
+	 * Confirms if user wants to quit and quits game based on confirmation.
+	 *
+	 */
+	public void quit() {
+		System.out.println("Exiting ...");
+		System.exit(0);
+		// Dialog.show("Quit", "Are you sure you want to Quit?", "OK", "Cancel");
+	}
 }

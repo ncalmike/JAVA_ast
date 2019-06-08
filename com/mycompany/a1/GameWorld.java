@@ -10,6 +10,14 @@ import com.codename1.ui.Dialog;
 import com.codename1.ui.TextArea;
 import com.codename1.ui.layouts.BorderLayout;
 
+/**
+ * 
+ * Maintains logical state of the game.
+ * <p>
+ * @author      Mike Morse
+ * @author      Andrew Dang
+ * @version     %I%, %G%
+ */
 public class GameWorld {
 	
 	public static Random random;
@@ -22,6 +30,11 @@ public class GameWorld {
 	private double width;
 	private double height;
 	
+	/**
+	 * 
+	 * Initializes instances of logical components used for game functionality.
+	 *
+	 */
 	public GameWorld() {
 		
 		this.random = new Random();
@@ -37,6 +50,11 @@ public class GameWorld {
 		this.numLives = 3;
 	}
 	
+	/**
+	 * 
+	 * Adds player ship to game components and initializes values needed to manage game ship.
+	 *
+	 */
 	public void init() {
 		this.addPlayerShip();
 		this.hasPlayerShip = true;
@@ -55,6 +73,12 @@ public class GameWorld {
 	public void addSpaceStation() {
 		gameObjs.add(new SpaceStation());
 	}
+	
+	/**
+	 * 
+	 * Fires missile from player ship.
+	 *
+	 */
 	public void fireMissile()
 	{
 		boolean found = false;
@@ -76,6 +100,12 @@ public class GameWorld {
 			}
 		}
 	}
+	
+	/**
+	 * 
+	 * Launches missile from enemy ship
+	 *
+	 */
 	public void launchMissile() {
 		boolean found = false;
 		
@@ -97,6 +127,11 @@ public class GameWorld {
 		}
 	}
 
+	/**
+	 * 
+	 * Adds player ship to game. If player is out of chances, informs user to start new game.
+	 *
+	 */
 	public void addPlayerShip() {
 		if(!hasPlayerShip && numLives > 0)
 		{
@@ -109,11 +144,21 @@ public class GameWorld {
 		}
 	}
 	
+	/**
+	 * 
+	 * Updates view to reflect current game objects and their respective locations.
+	 *
+	 */
 	public void display() {
 		Iterator<GameObject> iter = gameObjs.iterator();
 		while(iter.hasNext()) System.out.println(iter.next());
 	}
 	
+	/**
+	 * 
+	 * Displays game object locations.
+	 *
+	 */
 	public void displayMap() {
 		display();
 	}

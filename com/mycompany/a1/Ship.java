@@ -6,6 +6,10 @@ public class Ship extends MovableGameObject {
 	
 	public Ship(int color) {
 		super(color);
+
+		boolean isPS = this instanceof PlayerShip;
+		int missleCount = isPS ? 10 : 4;
+		setMissileCount(missleCount);
 	}
 
 	public void decrementMissleCount() {

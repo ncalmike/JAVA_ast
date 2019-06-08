@@ -6,8 +6,12 @@ public abstract class MovableGameObject extends GameObject implements IMovable{
 	
 	public MovableGameObject(int color) {
 		super(color);
-		this.setSpeed(1 + GameWorld.random.nextInt(20));
-		setDirection(GameWorld.random.nextInt(360));
+		
+		boolean isPS = this instanceof PlayerShip;
+		int direction = isPS ? 90 : GameWorld.random.nextInt(360);
+		int speed = isPS ? 0 : 1 + GameWorld.random.nextInt(20);
+		this.setSpeed(speed);
+		setDirection(direction);
 	}
 	
 	public int getSpeed() { return this.speed; }

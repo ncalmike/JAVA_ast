@@ -12,7 +12,6 @@ public class NonPlayerShip extends Ship
       super(ColorUtil.rgb(255,  0,  0));
       this.enemyGun= new MissileLauncher(ColorUtil.rgb(255, 0, 0));
       this.size = GameWorld.random.nextInt(2) == 0 ? 15 : 25;
-      setMissileCount(4);
      
       //System.out.println("test location set: " + GameObject.round(getLocationX()) + "," + GameObject.round(getLocationY()));
    }

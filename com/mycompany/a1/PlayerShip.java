@@ -2,18 +2,27 @@ package com.mycompany.a1;
 
 import com.codename1.charts.util.ColorUtil;
 
+/**
+ * 
+ * Describe class or intrerface
+ * <p>
+ * @author      Mike Morse
+ * @author      Andrew Dang
+ * @version     %I%, %G%
+ */
 public class PlayerShip extends Ship implements ISteerable {
 	
 	private static final int DEGREES = 6;
 	   
 	private SteerableMissileLauncher playerML;
-	
+
+	/**
+	 * 
+	 * Initializes 
+	 *
+	 */
 	public PlayerShip() {
 		super(ColorUtil.GREEN);
-		setLocation(0.0, 0.0);
-		setDirection(90);
-		setSpeed(0);
-		setMissileCount(10);
 		
 		playerML = new SteerableMissileLauncher();
 		playerML.setDirection(getDirection());
